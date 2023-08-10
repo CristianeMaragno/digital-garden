@@ -25,6 +25,11 @@ Prisma studio will serve as your primary database tool. You can open prisma stud
 ```bash
 npx prisma studio
 ```
+To create/update model on the database
+```bash
+npx prisma db push
+```
+
 ## Environment variables
 Copy the .env.example file to a new file called .env on the project root and replace the values with the sensitive information needed.
 
