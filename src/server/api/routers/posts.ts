@@ -3,7 +3,13 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const postsRouter = createTRPCRouter({
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.post.findMany();
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    const posts = await ctx.prisma.post.findMany({
+      take: 20,
+      where: {
+        home: true
+      }
+    });
+    return posts;
   }),
 });
