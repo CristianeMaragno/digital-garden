@@ -1,8 +1,7 @@
 import { type NextPage } from "next";
 import { api } from "~/utils/api";
-import type {
-  GetStaticProps
-} from 'next';
+import type { GetStaticProps } from 'next';
+import Link from "next/link";
 
 export interface PostProps {
   id: String | String[];
@@ -28,17 +27,8 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
             </div>
             <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
               <div className="text-sm px-4 py-2 border rounded bg-white shadow-md">
-                <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 mr-4 px-2 py-2 rounded hover:bg-slate-200">
+                <a href="/" className="block mt-4 lg:inline-block lg:mt-0 mr-4 px-2 py-2 rounded hover:bg-slate-200">
                   Home
-                </a>
-                <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 mr-4 px-2 py-2 rounded hover:bg-slate-200">
-                  Projects
-                </a>
-                <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 mr-4 px-2 py-2 rounded hover:bg-slate-200">
-                  Reading
-                </a>
-                <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 rounded hover:bg-slate-200">
-                  Notes
                 </a>
               </div>
               <div className="px-4 py-2 flex flex-grow justify-end">

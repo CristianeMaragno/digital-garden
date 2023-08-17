@@ -1,11 +1,17 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { use, useState } from "react";
 
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const { data } = api.posts.getAll.useQuery();
+  const [home, setHome] = useState(true);
+  const [tag, setTag] = useState('reading'); 
+  const { data } = home ? api.posts.getAll.useQuery() : api.posts.getPostsByTag.useQuery({
+    tag,
+  });
+
   return (
     <>
       <Head>
@@ -24,18 +30,18 @@ const Home: NextPage = () => {
               </div>
               <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
                 <div className="text-sm px-4 py-2 border rounded bg-white shadow-md">
-                  <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 mr-4 px-2 py-2 rounded hover:bg-slate-200">
+                  <div onClick={() => setHome(true)} className="block mt-4 lg:inline-block lg:mt-0 mr-4 px-2 py-2 rounded hover:bg-slate-200">
                     Home
-                  </a>
-                  <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 mr-4 px-2 py-2 rounded hover:bg-slate-200">
+                  </div>
+                  <div onClick={() => {setTag('project'); setHome(false)}} className="block mt-4 lg:inline-block lg:mt-0 mr-4 px-2 py-2 rounded hover:bg-slate-200">
                     Projects
-                  </a>
-                  <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 mr-4 px-2 py-2 rounded hover:bg-slate-200">
+                  </div>
+                  <div onClick={() => {setTag('reading'); setHome(false)}} className="block mt-4 lg:inline-block lg:mt-0 mr-4 px-2 py-2 rounded hover:bg-slate-200">
                     Reading
-                  </a>
-                  <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 rounded hover:bg-slate-200">
+                  </div>
+                  <div onClick={() => {setTag('note'); setHome(false)}} className="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 rounded hover:bg-slate-200">
                     Notes
-                  </a>
+                  </div>
                 </div>
                 <div className="px-4 py-2 flex flex-grow justify-end">
                   {/*Instagram*/}
