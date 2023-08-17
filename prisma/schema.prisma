@@ -12,11 +12,12 @@ generator client {
 }
 
 model Post {
-    id        String   @id @default(cuid())
-    name      String   
-    date      DateTime @default(now())
-    tag       String
-    home      Boolean  @default(false)
-    title     String
-    text      String
+    id         String   @id @default(cuid())
+    name       String   
+    date       DateTime @default(now())
+    tag        String
+    home       Boolean  @default(false)
+    title      String
+    text       String
+    coverImage String
 }
