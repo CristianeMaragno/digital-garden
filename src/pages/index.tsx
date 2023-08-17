@@ -79,8 +79,13 @@ const Home: NextPage = () => {
           <div>
             {data?.map((post) => 
               (
-                <Link href={`/post/${post.id}`}>
-                  <div key={post.id} className="bg-slate-100 rounded p-4 inline-block m-8 transform transition duration-500 hover:scale-110">
+                <Link key={post.id} href={{
+                    pathname: '/post/[id]', 
+                    query: { 
+                      id: post.id
+                    }
+                  }}>
+                  <div className="bg-slate-100 rounded p-4 inline-block m-8 transform transition duration-500 hover:scale-110">
                     <div>
                       <p className="text-slate-400 text-xs mb-4 capitalize lg:inline-block">{post.id} - {post.tag} - {post.title}</p>
                       <svg

@@ -1,11 +1,15 @@
 import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
-
 import { api } from "~/utils/api";
+import type {
+  GetStaticProps
+} from 'next';
 
-const PostPage: NextPage<{ id: string }> = ({id}) => {
-  console.log(id);
+export interface PostProps {
+  id: String | String[];
+}
+
+
+const PostPage: NextPage<{ id: string }> = ({ id }) => {
   const { data } = api.posts.getById.useQuery({
     id,
   });
@@ -78,5 +82,18 @@ const PostPage: NextPage<{ id: string }> = ({id}) => {
     </main>
   );
 };
+
+export async function getStaticPaths() {
+  return { paths: [], fallback: "blocking" };
+}
+ 
+export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
+  const id = context.params?.id ?? "error";
+  return { 
+    props: { 
+      id: id 
+    } 
+  };
+}
 
 export default PostPage;
