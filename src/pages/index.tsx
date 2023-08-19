@@ -21,9 +21,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center bg-neutral-50">
-        <div className="container flex flex-col gap-12 px-4 py-4">
+        <div className="container flex flex-col gap-12 px-8 py-4">
           <div>
-            <nav className="flex items-center justify-between flex-wrap p-6">
+            <nav className="flex items-center justify-between flex-wrap py-6">
               <div className="block lg:hidden">
                 <button className="flex items-center px-3 py-2 border rounded hover:text-white hover:border-white">
                   <svg className="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
@@ -86,8 +86,9 @@ const Home: NextPage = () => {
           </div>
 
           <div>
-            <p>Hi, i'm Cris, welcome to my digital garden! I like to build things, learn, read and cats.</p>
-            <p>I'm a full-stack web and mobile developver and i want to share a bit of the things i'm working on.</p>
+            <p className="font-mono text-xl">Hi, i'm Cris, welcome to my digital garden! I like to build things, learn, read and cats.</p>
+            <br/>
+            <p className="font-mono text-xl">I'm a full-stack web and mobile developver and i want to share a bit of the things i'm working on.</p>
           </div>
           <div>
             {data?.map((post) => 
@@ -98,29 +99,26 @@ const Home: NextPage = () => {
                       id: post.id
                     }
                   }}>
-                  <div className="h-80 bg-slate-100 wrapper rounded p-4 inline-block m-8 transform transition duration-500 hover:scale-110">
-                    <div>
+                  <div className="h-60 w-60 bg-slate-100 wrapper rounded inline-block m-8 transform transition duration-500 hover:scale-110">
+                    <div className="h-60 flex">
                       <Image
                         alt="post cover image"
                         src={post.coverImage}
                         width={320}
                         height={320}
-                        className="w-full object-cover object-center rounded-lg shadow-md"
+                        className="w-full my-auto rounded-lg"
                       />
-                      <div className="relative -mt-56">
-                        <p className="text-slate-400 text-xs mb-4 capitalize lg:inline-block">{post.id} - {post.tag} - {post.title}</p>
+                    </div>
+                      <div className="relative p-2 -mt-60 w-full block flow-root">
+                        <p className="text-slate-500 text-sm mb-4 capitalize lg:inline-block float-left">{post.tag} - {post.title}</p>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 block lg:inline-block ml-4 text-slate-400"
+                          className="h-5 w-5 block lg:inline-block ml-4 text-slate-400 float-right"
                           fill="currentColor"
                           viewBox="0 0 24 24">
                           <path d="M7 7h8.586L5.293 17.293l1.414 1.414L17 8.414V17h2V5H7v2z"/>
                         </svg>
                       </div>
-                    </div>
-    
-                    <p className="text-slate-600 mb-4">{post.text}</p>
-                    <p className="text-slate-400 text-xs">{post.date.getMonth() + '/' + post.date.getFullYear()}</p>
                   </div>
                 </Link>
               ))
