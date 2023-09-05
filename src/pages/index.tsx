@@ -1,10 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import Image from 'next/image';
 import { use, useState } from "react";
-
 import { api } from "~/utils/api";
+
+import { Post } from "~/components/post";
 
 const Home: NextPage = () => {
   const [home, setHome] = useState(true);
@@ -24,12 +23,13 @@ const Home: NextPage = () => {
         <div className="container flex flex-col gap-12 px-8 py-4">
           <div>
             <nav className="flex items-center justify-between flex-wrap py-6">
-              <div className="block lg:hidden">
-                <button className="flex items-center px-3 py-2 border rounded hover:text-white hover:border-white">
-                  <svg className="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
-                </button>
-              </div>
-              <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+              <button data-collapse-toggle="navbar-default" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-default" aria-expanded="false">
+                <span className="sr-only">Open main menu</span>
+                <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
+                </svg>
+              </button>
+              <div id="navbar-default" className="hidden w-full block flex-grow lg:flex lg:items-center lg:w-auto">
                 <div className="text-sm px-1 py-1 border rounded bg-white shadow-md cursor-pointer">
                   <div onClick={() => {setTag(''); setHome(true);}} className={`block mt-4 lg:inline-block lg:mt-0 px-2 py-1 rounded hover:bg-slate-200 ${home ? 'text-slate-700' : 'text-slate-400'}`}>
                     Home
@@ -85,42 +85,26 @@ const Home: NextPage = () => {
             </nav>
           </div>
 
-          <div>
-            <p className="font-mono text-xl">Hi, i'm Cris, welcome to my digital garden! I like to build things, learn, read and cats.</p>
-            <br/>
-            <p className="font-mono text-xl">I'm a full-stack web and mobile developver and i want to share a bit of the things i'm working on.</p>
+          <div className="lg:grid lg:grid-cols-2">
+            <div>
+              <p className="font-serif text-4xl text-slate-500">Hi, i'm <span className="text-slate-700">Cris</span>, welcome to my digital garden and portfolio!</p>
+              <br/>
+              <p className="font-serif text-4xl text-slate-500">I like to build things, learn, read and cats.</p>
+              <br/>
+              <p className="font-serif text-4xl text-slate-500">I'm a full-stack web and mobile developver and i want to share a bit of the things i'm working on.</p>
+            </div>
+            <div>
+              {data?.slice(0, 1).map((post) => 
+                (
+                  <Post {...post}/>
+                ))
+              }
+            </div>
           </div>
-          <div>
-            {data?.map((post) => 
+          <div className="space-y-8 lg:grid lg:grid-cols-3 xl:gap-6 lg:space-y-0">
+            {data?.slice(1, 4).map((post) => 
               (
-                <Link key={post.id} href={{
-                    pathname: '/post/[id]', 
-                    query: { 
-                      id: post.id
-                    }
-                  }}>
-                  <div className="h-60 w-60 bg-slate-100 wrapper rounded inline-block m-8 transform transition duration-500 hover:scale-110">
-                    <div className="h-60 flex">
-                      <Image
-                        alt="post cover image"
-                        src={post.coverImage}
-                        width={320}
-                        height={320}
-                        className="w-full my-auto rounded-lg"
-                      />
-                    </div>
-                      <div className="relative p-2 -mt-60 w-full block flow-root">
-                        <p className="text-slate-500 text-sm mb-4 capitalize lg:inline-block float-left">{post.tag} - {post.title}</p>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 block lg:inline-block ml-4 text-slate-400 float-right"
-                          fill="currentColor"
-                          viewBox="0 0 24 24">
-                          <path d="M7 7h8.586L5.293 17.293l1.414 1.414L17 8.414V17h2V5H7v2z"/>
-                        </svg>
-                      </div>
-                  </div>
-                </Link>
+                <Post {...post}/>
               ))
             }
           </div>
