@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { use, useState } from "react";
 import { api } from "~/utils/api";
+import Link from "next/link";
 
 import { Post } from "~/components/post";
 
@@ -87,7 +88,12 @@ const Home: NextPage = () => {
 
           <div className="lg:grid lg:grid-cols-2">
             <div>
-              <p className="font-serif text-4xl text-slate-500">Hi, i'm <span className="text-slate-700">Cris</span>, welcome to my digital garden and portfolio!</p>
+              <p className="font-serif text-4xl text-slate-500">Hi, i'm <span className="text-slate-700">Cris</span>, welcome to my 
+                <Link href='/post/clmhtfrfh0000ikef7rzk7jgo'>
+                  <span className="px-2 text-slate-700 underline hover:text-slate-600">digital garden</span>
+                </Link> 
+                and portfolio!
+              </p>
               <br/>
               <p className="font-serif text-4xl text-slate-500">I like to build things, learn, read and cats.</p>
               <br/>
@@ -102,7 +108,7 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div className="space-y-8 lg:grid lg:grid-cols-3 xl:gap-6 lg:space-y-0">
-            {data?.slice(1, 4).map((post) => 
+            {data?.slice(1).map((post) => 
               (
                 <Post {...post}/>
               ))

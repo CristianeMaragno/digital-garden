@@ -26,7 +26,7 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
             </div>
             <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
               <div className="text-sm px-1 py-1 border rounded bg-white shadow-md cursor-pointer">
-                <a href="/" className="block mt-4 lg:inline-block lg:mt-0 px-2 py-1 rounded hover:bg-slate-200 text-slate-400">
+                <a href="/" className="block mt-4 lg:inline-block lg:mt-0 px-2 py-1 rounded hover:bg-slate-200 text-slate-700">
                   Home
                 </a>
               </div>
@@ -71,7 +71,12 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
           </nav>
         </div>
         <div className="ml-32 mr-32 bg-white rounded p-8">
-          <div dangerouslySetInnerHTML={{__html: data.text}}></div>
+          <h1 className="text-center text-2xl text-slate-800 mb-8 font-semibold">{data.title}</h1>
+          <div className="[&>*]:mb-8 
+          [&>p]:text-slate-800 [&>p]:indent-2 
+          [&>blockquote]:indent-4 [&>blockquote]:text-slate-600 [&>blockquote]:p-4 [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300
+          [&>ul]:list-disc [&>ul]:list-inside" 
+          dangerouslySetInnerHTML={{__html: data.text}}></div>
         </div>
       </div>
     </main>
