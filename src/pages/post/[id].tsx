@@ -1,6 +1,18 @@
 import { type NextPage } from "next";
 import { api } from "~/utils/api";
 import type { GetStaticProps } from 'next';
+import ReactMarkdown from 'react-markdown';
+import { useEffect } from 'react';
+import Prism from "prismjs";
+import 'prismjs/themes/prism.css';
+import Image from 'next/image'
+import moment from 'moment';
+
+require('prismjs/components/prism-javascript');
+require('prismjs/components/prism-css');
+require('prismjs/components/prism-jsx');
+require('prismjs/components/prism-solidity');
+import "prismjs/themes/prism-tomorrow.css";
 
 export interface PostProps {
   id: String | String[];
@@ -11,6 +23,13 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
   const { data } = api.posts.getById.useQuery({
     id,
   });
+  
+  useEffect(() => {
+    console.log("inside highlight");
+    if(data){
+      Prism.highlightAll();
+    }
+  }, [data]);
 
   if (!data) return <div>404</div>;
 
@@ -19,15 +38,11 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
       <div className="container flex flex-col gap-12 px-8 py-4">
         <div>
           <nav className="flex items-center justify-between flex-wrap py-6">
-            <div className="block lg:hidden">
-              <button className="flex items-center px-3 py-2 border rounded hover:text-white hover:border-white">
-                <svg className="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
-              </button>
-            </div>
-            <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+            <div className="w-full block flex-grow flex items-center w-auto">
               <div className="text-sm px-1 py-1 border rounded bg-white shadow-md cursor-pointer">
-                <a href="/" className="block mt-4 lg:inline-block lg:mt-0 px-2 py-1 rounded hover:bg-slate-200 text-slate-700">
-                  Home
+                <a href="/" className="inline-block mt-0 px-2 py-1 rounded hover:bg-slate-200 text-slate-700">
+                  {/*<span className="material-symbols-outlined">arrow_back</span>*/}
+                  Go back
                 </a>
               </div>
               <div className="px-4 py-2 flex flex-grow justify-end">
@@ -70,12 +85,26 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
             </div>
           </nav>
         </div>
-        <div className="ml-32 mr-32 bg-white rounded p-8">
-          <h1 className="text-center text-2xl text-slate-800 mb-8 font-semibold">{data.title}</h1>
+        <div className="md:mx-42 xl:mx-72 bg-white rounded p-8">
+          <div className="mb-16 max-h-64 overflow-hidden -m-8">
+            <Image
+              src={data.coverImage}
+              width={500}
+              height={500}
+              style={{ width: '100%', height: 'auto' }}
+              alt="Post cover image"
+            />
+          </div>
+          <h1 className="text-4xl text-slate-800 mb-2 font-semibold">{data.title}</h1>
+          <p className="mb-8 text-slate-400">{moment(data.date).format('DD/MM/YYYY')}</p>
           <div className="[&>*]:mb-8 
-          [&>p]:text-slate-800 [&>p]:indent-2 
+          [&>p]:text-slate-800
+          [&>a]:underline [&>a]:cursor-pointer
+          [&>h3]:font-extrabold [&>h3]:text-2xl
           [&>blockquote]:indent-4 [&>blockquote]:text-slate-600 [&>blockquote]:p-4 [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300
-          [&>ul]:list-disc [&>ul]:list-inside" 
+          [&>ul]:list-disc [&>ul]:list-inside
+          [&>ol]:list-decimal [&>ol]:list-inside
+          [&>img]:h-72 [&>img]:w-auto [&>img]:m-auto" 
           dangerouslySetInnerHTML={{__html: data.text}}></div>
         </div>
       </div>

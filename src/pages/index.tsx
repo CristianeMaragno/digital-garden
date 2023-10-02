@@ -9,6 +9,7 @@ import { Post } from "~/components/post";
 const Home: NextPage = () => {
   const [home, setHome] = useState(true);
   const [tag, setTag] = useState(''); 
+  const [dropdown, setDropdown] = useState(false); 
   const { data } = home ? api.posts.getAll.useQuery() : api.posts.getPostsByTag.useQuery({
     tag,
   });
@@ -19,29 +20,31 @@ const Home: NextPage = () => {
         <title>Cristiane Maragno</title>
         <meta name="description" content="Digital garden and portfolio" />
         <link rel="icon" href="/favicon.ico" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
       </Head>
       <main className="flex min-h-screen flex-col items-center bg-neutral-50">
         <div className="container flex flex-col gap-12 px-8 py-4">
           <div>
             <nav className="flex items-center justify-between flex-wrap py-6">
-              <button data-collapse-toggle="navbar-default" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-default" aria-expanded="false">
+              <button onClick={() => { setDropdown(!dropdown);}} data-collapse-toggle="navbar-dropdown" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-dropdown" aria-expanded="false">
                 <span className="sr-only">Open main menu</span>
                 <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
                 </svg>
               </button>
-              <div id="navbar-default" className="hidden w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+              <div id="navbar-dropdown" className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto md:flex md:items-center md:w-auto ${dropdown ? 'block' : 'hidden'}`}>
                 <div className="text-sm px-1 py-1 border rounded bg-white shadow-md cursor-pointer">
-                  <div onClick={() => {setTag(''); setHome(true);}} className={`block mt-4 lg:inline-block lg:mt-0 px-2 py-1 rounded hover:bg-slate-200 ${home ? 'text-slate-700' : 'text-slate-400'}`}>
+                  <div onClick={() => {setTag(''); setHome(true);}} className={`block mt-4 lg:inline-block md:inline-block md:mt-0 lg:mt-0 px-2 py-1 rounded hover:bg-slate-200 ${home ? 'text-slate-700' : 'text-slate-400'}`}>
                     Home
                   </div>
-                  <div onClick={() => {setTag('project'); setHome(false);}} className={`block mt-4 lg:inline-block lg:mt-0 px-2 py-1 rounded hover:bg-slate-200 ${tag == 'project' ? 'text-slate-700' : 'text-slate-400'}`}>
+                  <div onClick={() => {setTag('project'); setHome(false);}} className={`block mt-4 lg:inline-block md:inline-block md:mt-0 lg:mt-0 px-2 py-1 rounded hover:bg-slate-200 ${tag == 'project' ? 'text-slate-700' : 'text-slate-400'}`}>
                     Projects
                   </div>
-                  <div onClick={() => {setTag('reading'); setHome(false);}} className={`block mt-4 lg:inline-block lg:mt-0 px-2 py-1 rounded hover:bg-slate-200 ${tag == 'reading' ? 'text-slate-700' : 'text-slate-400'}`}>
+                  <div onClick={() => {setTag('reading'); setHome(false);}} className={`block mt-4 lg:inline-block md:inline-block md:mt-0 lg:mt-0 px-2 py-1 rounded hover:bg-slate-200 ${tag == 'reading' ? 'text-slate-700' : 'text-slate-400'}`}>
                     Reading
                   </div>
-                  <div onClick={() => {setTag('note'); setHome(false);}} className={`block mt-4 lg:inline-block lg:mt-0 px-4 py-1 rounded hover:bg-slate-200 ${tag == 'note' ? 'text-slate-700' : 'text-slate-400'}`}>
+                  <div onClick={() => {setTag('note'); setHome(false);}} className={`block mt-4 lg:inline-block md:inline-block md:mt-0 lg:mt-0 px-2 md:px-4 py-1 rounded hover:bg-slate-200 ${tag == 'note' ? 'text-slate-700' : 'text-slate-400'}`}>
                     Notes
                   </div>
                 </div>
@@ -86,7 +89,7 @@ const Home: NextPage = () => {
             </nav>
           </div>
 
-          <div className="lg:grid lg:grid-cols-2">
+          <div className={`${home ? 'block' : 'hidden lg:hidden'} lg:grid lg:grid-cols-2`}>
             <div>
               <p className="font-serif text-4xl text-slate-500">Hi, i'm <span className="text-slate-700">Cris</span>, welcome to my 
                 <Link href='/post/clmhtfrfh0000ikef7rzk7jgo'>
@@ -108,7 +111,8 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div className="space-y-8 lg:grid lg:grid-cols-3 xl:gap-6 lg:space-y-0">
-            {data?.slice(1).map((post) => 
+            {
+            data?.slice((home ? 1 : 0)).map((post) => 
               (
                 <Post {...post}/>
               ))
