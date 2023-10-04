@@ -1,12 +1,13 @@
 import { type NextPage } from "next";
 import { api } from "~/utils/api";
 import type { GetStaticProps } from 'next';
-import ReactMarkdown from 'react-markdown';
 import { useEffect } from 'react';
 import Prism from "prismjs";
 import 'prismjs/themes/prism.css';
 import Image from 'next/image'
 import moment from 'moment';
+import { Status } from "~/components/status";
+import { LoadingPage } from "~/components/loading";
 
 require('prismjs/components/prism-javascript');
 require('prismjs/components/prism-css');
@@ -25,13 +26,12 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
   });
   
   useEffect(() => {
-    console.log("inside highlight");
     if(data){
       Prism.highlightAll();
     }
   }, [data]);
 
-  if (!data) return <div>404</div>;
+  if (!data) return <LoadingPage/>;
 
   return (
     <main className="flex min-h-screen flex-col items-center bg-neutral-50">
@@ -40,9 +40,8 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
           <nav className="flex items-center justify-between flex-wrap py-6">
             <div className="w-full block flex-grow flex items-center w-auto">
               <div className="text-sm px-1 py-1 border rounded bg-white shadow-md cursor-pointer">
-                <a href="/" className="inline-block mt-0 px-2 py-1 rounded hover:bg-slate-200 text-slate-700">
-                  {/*<span className="material-symbols-outlined">arrow_back</span>*/}
-                  Go back
+                <a href="/" className="flex mt-0 px-2 py-1 rounded hover:bg-slate-200 text-slate-700">
+                  <span className="material-symbols-outlined">arrow_back</span>
                 </a>
               </div>
               <div className="px-4 py-2 flex flex-grow justify-end">
@@ -95,8 +94,15 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
               alt="Post cover image"
             />
           </div>
-          <h1 className="text-4xl text-slate-800 mb-2 font-semibold">{data.title}</h1>
-          <p className="mb-8 text-slate-400">{moment(data.date).format('DD/MM/YYYY')}</p>
+          <div className="flex mb-8 items-center">
+            <div>
+              <h1 className="text-4xl text-slate-800 mb-2 font-semibold">{data.title}</h1>
+              <p className="text-slate-400">{moment(data.date).format('DD/MM/YYYY')}</p>
+            </div>
+            <div className="flex flex-grow justify-end">
+              <Status completed={false}/>
+            </div>
+          </div>
           <div className="[&>*]:mb-8 
           [&>p]:text-slate-800
           [&>a]:underline [&>a]:cursor-pointer

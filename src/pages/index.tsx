@@ -1,5 +1,4 @@
 import { type NextPage } from "next";
-import Head from "next/head";
 import { use, useState } from "react";
 import { api } from "~/utils/api";
 import Link from "next/link";
@@ -16,13 +15,6 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Cristiane Maragno</title>
-        <meta name="description" content="Digital garden and portfolio" />
-        <link rel="icon" href="/favicon.ico" />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-      </Head>
       <main className="flex min-h-screen flex-col items-center bg-neutral-50">
         <div className="container flex flex-col gap-12 px-8 py-4">
           <div>
@@ -110,6 +102,15 @@ const Home: NextPage = () => {
               }
             </div>
           </div>
+
+          <div className={`${!home ? 'block' : 'hidden'} lg:w-2/4`}>
+            <h1 className="text-7xl text-slate-700 mb-8"><span className="capitalize">{tag}</span>s</h1>
+            <p className={`${tag == 'project' ? 'block' : 'hidden'} text-slate-400`}>I like building things. Here are a few things i've worked on thus 
+            far and some implementation details. Some are professional works and other are exploratory.</p>
+            <p className={`${tag == 'reading' ? 'block' : 'hidden'} text-slate-400`}>What I've read, some thoughts and favorite quotes</p>
+            <p className={`${tag == 'note' ? 'block' : 'hidden'} text-slate-400`}>A space to share my thoughts, experiences and techs i'm learning about</p>
+          </div>
+
           <div className="space-y-8 lg:grid lg:grid-cols-3 xl:gap-6 lg:space-y-0">
             {
             data?.slice((home ? 1 : 0)).map((post) => 

@@ -20,4 +20,5 @@ model Post {
     title      String
     text       String   @db.Text
     coverImage String
+    completed  Boolean  @default(false)
 }

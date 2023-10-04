@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from 'next/image';
 import { RouterOutputs } from "~/utils/api";
+import { Tag } from "~/components/tag";
 
 type PostCard = RouterOutputs["posts"]["getAll"][number];
 export const Post = (props: PostCard) => {
@@ -18,7 +19,7 @@ export const Post = (props: PostCard) => {
 					/>
 				
 					<div className="flex items-center justify-between absolute top-0 w-full p-2">
-						<p className="text-slate-500 text-md capitalize lg:inline-block float-left">{props.tag} - {props.title}</p>
+						<p className="text-slate-500 text-md capitalize lg:inline-block float-left"><Tag tag={props.tag}/> &#x2022; {props.title}</p>
 						<Link
 							className="group-hover:bg-slate-400 group-hover:rounded-full group-hover:text-slate-100 mr-2"
 							href={{
