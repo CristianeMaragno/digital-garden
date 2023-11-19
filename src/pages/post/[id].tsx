@@ -108,7 +108,7 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
           </div>
           <div className="[&>*]:mb-8 
           [&>p]:text-slate-800
-          [&>a]:underline [&>a]:cursor-pointer
+          [&>a]:underline [&>p>a]:text-sky-600 [&>ul>li>a]:text-sky-600 [&>a]:cursor-pointer
           [&>h3]:font-extrabold [&>h3]:text-2xl
           [&>blockquote]:indent-4 [&>blockquote]:text-slate-600 [&>blockquote]:p-4 [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300
           [&>ul]:list-disc [&>ul]:list-inside

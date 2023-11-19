@@ -20,7 +20,7 @@ export const postsRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
       const post = await axios.get(
-        process.env.CMS_API + '/api/posts/${input.id}?populate=*'
+        process.env.CMS_API + `/api/posts/${input.id}?populate=*`
       );
       let response = post.data.data;
 

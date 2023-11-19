@@ -97,7 +97,7 @@ const Home: NextPage = () => {
               <p className="font-serif text-4xl text-slate-500">I'm a full-stack web and mobile developver and i want to share a bit of the things i'm working on.</p>
             </div>
             <div>
-              {data?.filter((item: any) => item.attributes.home).map((item: any, index: number) => 
+              {data?.slice(0, 1).filter((item: any) => item.attributes.home).map((item: any, index: number) => 
                 (
                   <Post 
                   key={item.id}
@@ -120,7 +120,7 @@ const Home: NextPage = () => {
           </div>
 
           <div className="space-y-8 lg:grid lg:grid-cols-3 xl:gap-6 lg:space-y-0">
-            {data?.filter((item: any) => item.attributes.tag == tag).map((item: any, index: number) => 
+            {data?.slice((home ? 1 : 0)).filter((item: any) => (home ? item.attributes.home : item.attributes.tag == tag)).map((item: any, index: number) => 
               (
                 <Post 
                 key={item.id}
