@@ -1,7 +1,9 @@
 import { type NextPage } from "next";
-import { use, useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import Link from "next/link";
+import axios from "axios";
+import React from "react";
 
 import { Post } from "~/components/post";
 
@@ -9,9 +11,9 @@ const Home: NextPage = () => {
   const [home, setHome] = useState(true);
   const [tag, setTag] = useState(''); 
   const [dropdown, setDropdown] = useState(false); 
-  const { data } = home ? api.posts.getAll.useQuery() : api.posts.getPostsByTag.useQuery({
-    tag,
-  });
+  const { data } = api.posts.getAll.useQuery();
+
+  console.log(data);
 
   return (
     <>
@@ -95,11 +97,17 @@ const Home: NextPage = () => {
               <p className="font-serif text-4xl text-slate-500">I'm a full-stack web and mobile developver and i want to share a bit of the things i'm working on.</p>
             </div>
             <div>
-              {data?.slice(0, 1).map((post) => 
+              {data?.filter((item: any) => item.attributes.home).map((item: any, index: number) => 
                 (
-                  <Post {...post}/>
+                  <Post 
+                  key={item.id}
+                  id={item.id}
+                  title={item.attributes.title}
+                  tag={item.attributes.tag}
+                  coverImage={item.attributes.coverImage.data.attributes.url}/>
                 ))
               }
+              
             </div>
           </div>
 
@@ -112,10 +120,14 @@ const Home: NextPage = () => {
           </div>
 
           <div className="space-y-8 lg:grid lg:grid-cols-3 xl:gap-6 lg:space-y-0">
-            {
-            data?.slice((home ? 1 : 0)).map((post) => 
+            {data?.filter((item: any) => item.attributes.tag == tag).map((item: any, index: number) => 
               (
-                <Post {...post}/>
+                <Post 
+                key={item.id}
+                id={item.id}
+                title={item.attributes.title}
+                tag={item.attributes.tag}
+                coverImage={item.attributes.coverImage.data.attributes.url}/>
               ))
             }
           </div>

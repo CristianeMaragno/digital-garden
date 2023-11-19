@@ -8,6 +8,8 @@ import Image from 'next/image'
 import moment from 'moment';
 import { Status } from "~/components/status";
 import { LoadingPage } from "~/components/loading";
+import axios from "axios";
+import { useState } from "react";
 
 require('prismjs/components/prism-javascript');
 require('prismjs/components/prism-css');
@@ -18,7 +20,6 @@ import "prismjs/themes/prism-tomorrow.css";
 export interface PostProps {
   id: String | String[];
 }
-
 
 const PostPage: NextPage<{ id: string }> = ({ id }) => {
   const { data } = api.posts.getById.useQuery({
@@ -31,7 +32,9 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
     }
   }, [data]);
 
-  if (!data) return <LoadingPage/>;
+  if (!data){
+    return <LoadingPage/>
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center bg-neutral-50">
@@ -87,7 +90,7 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
         <div className="md:mx-42 xl:mx-72 bg-white rounded p-8">
           <div className="mb-16 max-h-64 overflow-hidden -m-8">
             <Image
-              src={data.coverImage}
+              src={data.attributes.coverImage.data.attributes.url}
               width={500}
               height={500}
               style={{ width: '100%', height: 'auto' }}
@@ -96,11 +99,11 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
           </div>
           <div className="flex mb-8 items-center">
             <div>
-              <h1 className="text-4xl text-slate-800 mb-2 font-semibold">{data.title}</h1>
-              <p className="text-slate-400">{moment(data.date).format('DD/MM/YYYY')}</p>
+              <h1 className="text-4xl text-slate-800 mb-2 font-semibold">{data.attributes.title}</h1>
+              <p className="text-slate-400">{moment(data.attributes.date).format('DD/MM/YYYY')}</p>
             </div>
             <div className="flex flex-grow justify-end">
-              <Status completed={false}/>
+              <Status completed={data.attributes.completed}/>
             </div>
           </div>
           <div className="[&>*]:mb-8 
@@ -111,7 +114,7 @@ const PostPage: NextPage<{ id: string }> = ({ id }) => {
           [&>ul]:list-disc [&>ul]:list-inside
           [&>ol]:list-decimal [&>ol]:list-inside
           [&>img]:h-72 [&>img]:w-auto [&>img]:m-auto" 
-          dangerouslySetInnerHTML={{__html: data.text}}></div>
+          dangerouslySetInnerHTML={{__html: data.attributes.content}}></div>
         </div>
       </div>
     </main>

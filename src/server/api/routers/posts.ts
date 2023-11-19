@@ -1,30 +1,31 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import axios from "axios";
 
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const postsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const posts = await ctx.prisma.post.findMany({
-      take: 20,
-      where: {
-        home: true
-      }
-    });
-    return posts;
+    const post = await axios.get(
+      process.env.CMS_API + '/api/posts?populate=*'
+    );
+    let response = post.data.data;
+
+    if (!response) throw new TRPCError({ code: "NOT_FOUND" });
+    return response;
   }),
 
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      const post = await ctx.prisma.post.findUnique({
-        where: { id: input.id },
-      });
+      const post = await axios.get(
+        process.env.CMS_API + '/api/posts/${input.id}?populate=*'
+      );
+      let response = post.data.data;
 
-      if (!post) throw new TRPCError({ code: "NOT_FOUND" });
-
-      return post;
+      if (!response) throw new TRPCError({ code: "NOT_FOUND" });
+      return response;
   }),
 
   getPostsByTag: publicProcedure

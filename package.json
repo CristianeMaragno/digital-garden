@@ -17,6 +17,7 @@
     "@trpc/react-query": "^10.18.0",
     "@trpc/server": "^10.18.0",
     "@types/prismjs": "^1.26.0",
+    "axios": "^1.6.1",
     "moment": "^2.29.4",
     "next": "^13.4.12",
     "prismjs": "^1.29.0",

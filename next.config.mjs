@@ -27,6 +27,12 @@ const config = {
         port: '',
         pathname: '/dbx69s7id/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'digital-garden-cms-v2.onrender.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   }
 };

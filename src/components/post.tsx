@@ -3,15 +3,27 @@ import Image from 'next/image';
 import { RouterOutputs } from "~/utils/api";
 import { Tag } from "~/components/tag";
 
-type PostCard = RouterOutputs["posts"]["getAll"][number];
-export const Post = (props: PostCard) => {
+interface PostProps {
+  id: number,
+  title: string
+  tag: string
+  coverImage: string
+};
+
+export const Post = ({
+  id,
+  title,
+  tag,
+  coverImage
+}: PostProps) => {
+  console.log(id);
   return (
-		<div key={props.id} className="block h-96">
+		<div className="block h-96">
 			<div className="group h-full w-full overflow-hidden bg-slate-100 wrapper rounded inline-block transform transition duration-500 hover:scale-110">
 				<div className="relative flex justify-center items-end isolate h-full w-full">
 					<Image
 						alt="post cover image"
-						src={props.coverImage}
+						src={coverImage}
 						width={300}
 						height={300}
 						style={{ width: 'auto', height: '80%' }}
@@ -19,15 +31,10 @@ export const Post = (props: PostCard) => {
 					/>
 				
 					<div className="flex items-center justify-between absolute top-0 w-full p-2">
-						<p className="text-slate-500 text-md capitalize lg:inline-block float-left"><Tag tag={props.tag}/> &#x2022; {props.title}</p>
+						<p className="text-slate-500 text-md capitalize lg:inline-block float-left"><Tag tag={tag}/> &#x2022; {title}</p>
 						<Link
 							className="group-hover:bg-slate-400 group-hover:rounded-full group-hover:text-slate-100 mr-2"
-							href={{
-								pathname: '/post/[id]', 
-								query: { 
-								id: props.id
-							}
-						}}>
+							href={`/post/${id}`}>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								className="h-5 w-5 block lg:inline-block m-1 text-slate-400 float-right group-hover:text-slate-100"
